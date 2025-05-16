@@ -70,18 +70,18 @@ const Header = () => {
 
   return (
     <div
-      className="relative h-[400px] bg-cover bg-center bg-no-repeat"
+      className="relative h-[400px] bg-cover bg-center bg-no-repeat w-full max-w-[1400px] mx-auto"
       style={{ backgroundImage: "url('/bg.webp')" }}
     >
       <div className="absolute inset-0 bg-red-500/30" />
       <div className="absolute inset-0 flex items-center justify-center z-10 flex flex-col">
-        <h1 className="text-white text-center text-4xl  px-4">
+        <h1 className="text-white text-center sm:text-4xl  text-md sm:px-4 px-2">
           Tam istediğin <span className="font-bold">{currentText}</span>,
           Hepsiemlak’ta kolayca ara,{" "}
           <span className="font-bold">rahatça bul.</span>
         </h1>
-<div className="mt-6 w-[800px] p-7 bg-white/30 backdrop-opacity-10 backdrop-invert rounded-md "> 
-       <div className="flex gap-6 border-b border-white/50 mb-4">
+<div className="sm:mt-6 mt-1 sm:w-[800px] w-[300px] p-7 sm:bg-white/30 bg-none backdrop-opacity-10 backdrop-invert rounded-md "> 
+       <div className="flex gap-6 border-b border-white/50 mb-4 hidden md:flex">
         {headCategories.map((category) => (
           <button
             key={category.id}
@@ -97,7 +97,7 @@ const Header = () => {
         ))}
       </div>
       <div className="flex gap-2 items-center p-2 rounded-md">
-        <select className="text-black rounded-md px-3 py-2 bg-white ">
+        <select className="text-black rounded-md px-3 py-2 bg-white hidden md:flex ">
           <option value="konut">Konut</option>
           <option value="arsa">Arsa</option>
           <option value="işyeri">İşyeri</option>
@@ -109,11 +109,11 @@ const Header = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <Button className="bg-red-600 hover:bg-red-700 text-white px-4 flex items-center gap-2">
+        <Button className="bg-red-600 hover:bg-red-700 text-white sm:px-4 px-1 flex items-center gap-2  hidden md:flex">
           <FaSearch />
           Ara
         </Button>
-        <Button variant="outline" className="text-white border-white bg-transparent">
+        <Button variant="outline" className="text-white border-white bg-transparent hidden md:flex">
           Haritada Ara
         </Button>
       </div>
