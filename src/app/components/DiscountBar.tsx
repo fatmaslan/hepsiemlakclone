@@ -25,7 +25,7 @@ const DiscountBar = () => {
       {/* Geri Butonu */}
       <button
         onClick={() => scroll('left')}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm border border-white text-white"
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm border border-white text-white"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -47,7 +47,7 @@ const DiscountBar = () => {
       {/* İleri Butonu */}
       <button
         onClick={() => scroll('right')}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm border border-white text-white"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm border border-white text-white"
       >
         <ChevronRight className="w-5 h-5 " />
       </button>

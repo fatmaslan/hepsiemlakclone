@@ -44,13 +44,26 @@ interface Variants {
   image: string;
   indirim:number;
 }
+interface User  {
+  id: 1,
+  username: string,
+  email:string,
+}
 interface ProductProps {
   id: number;
   name: string;
   description: string;
   price: number;
+  image: string;
   indirim:number;
+  user:User;
   indirimli_fiyat: number;
+  city:string;
+  place:string;
+  adstatus:string;
+  floors:number;
+  subcat: Category[];
+  rooms:string;
   variants: Variants[]
   images: ProductImage[] ;
 }
@@ -136,8 +149,8 @@ export const useHeadCategories = () => {
 
   return { products, loading, error };
 };
-export const useCarousel = () => {
-  const [carousel, setProducts] = useState<ProductProps | null>(null);
+export const useBlog = () => {
+  const [blog, setBlog] = useState<Category[]  | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -145,8 +158,8 @@ export const useCarousel = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/carousals/2/");
-        setProducts(response.data);
+        const response = await axios.get( "http://127.0.0.1:8000/api/blog/");
+        setBlog(response.data);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
@@ -161,7 +174,7 @@ export const useCarousel = () => {
     fetchProducts();
   }, []);
 
-  return { carousel, loading, error };
+  return { blog, loading, error };
 };
 export const useCategories = () => {
   const [categories, setCategories] = useState<Category[] | null>(null);

@@ -18,7 +18,7 @@ const Header = () => {
   const [currentText, setCurrentText] = useState("");
   const [loopIndex, setLoopIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [activeTab, setActiveTab] = useState("Satılık");
+  const [activeTab, setActiveTab] = useState<number>(2);
   const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     const currentPhrase = placeholders[loopIndex % placeholders.length];
@@ -47,26 +47,15 @@ const Header = () => {
 
 
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const { data } = await axios.get(
-//           `/api/headcategories?name=${activeTab}`
-//         );
-//         if (data && data.length > 0) {
-//           const headCategoryId = data[0].id;
-//           const res = await axios.get(
-//             `http://127.0.0.1:8000/api/headcategories/${headCategoryId}/details_with_products/`
-//           );
-//           setData(res.data);
-//         }
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     };
-//     fetchData();
-//   }, [activeTab]);
 
+const fetchProductsByHeadCategory = async (id: number) => {
+  const res = await fetch(`http://127.0.0.1:8000/api/products/by_head_category/?head_category_id=${id}`);
+  const data = await res.json();
+  console.log(data); 
+};
+const handleSearch = () => {
+  fetchProductsByHeadCategory(activeTab);
+};
 
   return (
     <div
@@ -85,12 +74,12 @@ const Header = () => {
         {headCategories.map((category) => (
           <button
             key={category.id}
-            onClick={() => setActiveTab(category.name)}
-            className={`pb-2 font-semibold ${
-              activeTab === category.name
-                ? "border-b-2 border-white"
-                : "text-white"
-            }`}
+             onClick={() => setActiveTab(category.id)}
+    className={`pb-2 font-semibold ${
+      activeTab === category.id
+        ? "border-b-2 border-white"
+        : "text-white"
+    }`}
           >
             {category.name}
           </button>
@@ -109,11 +98,11 @@ const Header = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <Button className="bg-red-600 hover:bg-red-700 text-white sm:px-4 px-1 flex items-center gap-2  hidden md:flex">
+        <Button onClick={handleSearch}  className="bg-red-600 hover:bg-red-700 text-white sm:px-4 px-1 flex items-center gap-2  hidden md:flex">
           <FaSearch />
           Ara
         </Button>
-        <Button variant="outline" className="text-white border-white bg-transparent hidden md:flex">
+        <Button onClick={handleSearch} variant="outline" className="text-white border-white bg-transparent hidden md:flex">
           Haritada Ara
         </Button>
       </div>
