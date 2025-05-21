@@ -43,6 +43,9 @@ interface Variants {
   indirimli_fiyat: number;
   image: string;
   indirim:number;
+  features:string [];
+  perimeter:string [];
+
 }
 interface User  {
   id: 1,
@@ -60,8 +63,12 @@ interface ProductProps {
   indirimli_fiyat: number;
   city:string;
   place:string;
+  warming:string;
+  residentialtype:string;
   adstatus:string;
   floors:number;
+  deposit:number;
+
   subcat: Category[];
   rooms:string;
   variants: Variants[]
@@ -241,8 +248,8 @@ export const useCategoryDetail = (categoryId: string) => {
 
 
 
-export const useDirectories = () => {
-  const [directories, setDirectories] = useState<Category[] | null>(null);
+export const useSimilarProducts = (productId: string) => {
+  const [products, setProducts] = useState<ProductProps[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -250,8 +257,8 @@ export const useDirectories = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/directories/");
-        setDirectories(response.data);
+        const response = await axios.get(`http://127.0.0.1:8000/api/products/${productId}/similar/`);
+        setProducts(response.data);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
@@ -264,9 +271,9 @@ export const useDirectories = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [productId]);
 
-  return { directories, loading, error };
+  return { products, loading, error };
 };
 export const useDiscountBar = () => {
   const [discount, setDiscount] = useState<Category[]  | null>(null);
