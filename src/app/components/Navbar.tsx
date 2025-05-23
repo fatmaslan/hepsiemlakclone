@@ -2,13 +2,13 @@
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { headCategoryIcons } from "../utils/headCategoryIcons";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuLabel,
+  DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { TfiWorld } from "react-icons/tfi";
@@ -17,6 +17,10 @@ import { Button } from "@/components/ui/button";
 import { FaUser } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useTranslation } from 'react-i18next'
+import i18n from '@/lib/i18n'
+
+
 
 type HeadCategory = {
   id: number;
@@ -31,7 +35,12 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
+  const { t } = useTranslation('common')
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng)
+    // Eğer URL tabanlı dil kullanıyorsan burada yönlendirme de yapılabilir
+  }
   const fetchHeadCategories = async () => {
     setLoading(true);
     setError(null);
@@ -119,23 +128,32 @@ const Navbar = () => {
         </div>
         <div className="flex sm:gap-7 gap-0 sm:p-4 p-1">
           
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="cursor-pointer flex flex-col items-center hover:text-red-950 px-4 mt-2">
-                  <TfiWorld size={24} />
-                  <span className="hidden sm:block mt-0 font-semibold text-xs">TR-EN</span>
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-40 max-h-67 border-none p-2 shadow-none left-0">
-                <DropdownMenuLabel className="text-center font-semibold">
-                  Türkçe
-                </DropdownMenuLabel>
-                <DropdownMenuLabel className="text-center font-semibold">
-                  İngilizce
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="cursor-pointer flex flex-col items-center hover:text-red-950 px-4 mt-2">
+          <TfiWorld size={24} />
+          <span className="hidden sm:block mt-0 font-semibold text-xs">
+            {i18n.language.toUpperCase()}
+          </span>
+        </div>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="w-40 max-h-67 border-none p-2 shadow-none left-0">
+        <DropdownMenuItem
+          className="text-center font-semibold cursor-pointer"
+          onClick={() => changeLanguage('tr')}
+        >
+          Türkçe
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="text-center font-semibold cursor-pointer"
+          onClick={() => changeLanguage('en')}
+        >
+          English
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+      </DropdownMenuContent>
+    </DropdownMenu>
        
 
           <DropdownMenu>
@@ -149,7 +167,7 @@ const Navbar = () => {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-48 border-none p-3 shadow-md rounded-md bg-white space-y-2">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 p-2">
                 <Button
                   variant="mybutton"
                   onClick={() => handleauth("/account")}
